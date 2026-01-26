@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Responsive Navigation</title>
+		<style>
+			:root {
+				--bg: #ffffff;
+				--text: #1f2937; /* slate-800 */
+				--muted: #6b7280; /* gray-500 */
+				--accent: #2563eb; /* blue-600 */
+				--border: #e5e7eb; /* gray-200 */
+			}
+
+			* { box-sizing: border-box; }
+			html, body { height: 100%; }
+			body {
+				margin: 0;
+				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+					Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+				color: var(--text);
+				background: var(--bg);
+			}
+
+			/* Navbar */
+			.navbar {
+				position: sticky;
+				top: 0;
+				z-index: 50;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 1rem;
+				padding: 0.75rem 1rem;
+				background: var(--bg);
+				border-bottom: 1px solid var(--border);
+			}
+
+			.brand {
+				font-weight: 700;
+				font-size: 1.125rem;
+				letter-spacing: 0.2px;
+				text-decoration: none;
+				color: var(--text);
+			}
+
+			/* Hidden checkbox for CSS-only toggle */
+			#nav-toggle {
+				position: absolute;
+				left: -9999px; /* visually hidden but accessible */
+			}
+
+			/* Hamburger button */
+			.hamburger {
+				display: none; /* shown on small screens */
+				width: 32px;
+				height: 24px;
+				cursor: pointer;
+				-webkit-tap-highlight-color: transparent;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+				gap: 6px;
+			}
+			.hamburger span {
+				display: block;
+				width: 100%;
+				height: 2px;
+				background: var(--text);
+				transition: transform 0.25s ease, opacity 0.25s ease;
+			}
+
+			/* Desktop menu */
+			.nav-menu {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+			.nav-menu a {
+				text-decoration: none;
+				color: var(--text);
+				padding: 0.5rem 0.25rem;
+				border-radius: 6px;
+			}
+			.nav-menu a:hover {
+				color: var(--accent);
+			}
+
+			.cta {
+				padding: 0.5rem 0.75rem;
+				border: 1px solid var(--accent);
+				color: var(--accent);
+				border-radius: 8px;
+			}
+			.cta:hover { background: #eef2ff; }
+
+			/* Mobile layout */
+			@media (max-width: 768px) {
+				.hamburger { display: inline-flex; }
+				.nav-menu {
+					position: absolute;
+					left: 0;
+					right: 0;
+					top: 100%;
+					background: var(--bg);
+					border-bottom: 1px solid var(--border);
+					display: flex;
+					flex-direction: column;
+					gap: 0;
+					overflow: hidden;
+					max-height: 0; /* collapsed */
+					transition: max-height 0.3s ease;
+				}
+				.nav-menu li { border-top: 1px solid var(--border); }
+				.nav-menu a { padding: 0.75rem 1rem; display: block; }
+
+				/* Animate hamburger to X when open */
+				#nav-toggle:checked + .hamburger span:nth-child(1) {
+					transform: translateY(8px) rotate(45deg);
+				}
+				#nav-toggle:checked + .hamburger span:nth-child(2) {
+					opacity: 0;
+				}
+				#nav-toggle:checked + .hamburger span:nth-child(3) {
+					transform: translateY(-8px) rotate(-45deg);
+				}
+
+				/* Expand menu when toggled */
+				#nav-toggle:checked ~ .nav-menu {
+					max-height: 420px; /* enough to show all items */
+				}
+			}
+
+			/* Demo content */
+			.page {
+				padding: 2rem 1rem;
+				max-width: 1000px;
+				margin: 0 auto;
+				color: var(--muted);
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.hamburger span { transition: none; }
+				.nav-menu { transition: none; }
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar" aria-label="Primary Navigation">
+			<a class="brand" href="#">Test Brand</a>
+
+			<!-- checkbox + label enables CSS-only toggling -->
+			<input id="nav-toggle" type="checkbox" aria-label="Toggle navigation" />
+			<label class="hamburger" for="nav-toggle" role="button" aria-controls="primary-menu" aria-expanded="false">
+				<span></span>
+				<span></span>
+				<span></span>
+			</label>
+
+			<ul id="primary-menu" class="nav-menu" role="menubar">
+				<li role="none"><a role="menuitem" href="#">Home</a></li>
+				<li role="none"><a role="menuitem" href="#">Features</a></li>
+				<li role="none"><a role="menuitem" href="#">Pricing</a></li>
+				<li role="none"><a role="menuitem" href="#">About</a></li>
+				<li role="none"><a role="menuitem" class="cta" href="#">Sign In</a></li>
+			</ul>
+		</nav>
+
+		<main class="page">
+			<h1>Responsive Navbar Demo</h1>
+			<p>
+				Resize your browser below 768px width to see the hamburger menu.
+				This implementation uses only HTML and CSS with an accessible
+				checkbox toggle.
+			</p>
+		</main>
+	</body>
+</html>
