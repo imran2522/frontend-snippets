@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>JS-Practice Projects</title>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				padding: 2rem 1rem;
+				font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+					Helvetica, Arial, sans-serif;
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				min-height: 100vh;
+			}
+
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			header {
+				text-align: center;
+				color: white;
+				margin-bottom: 3rem;
+			}
+
+			header h1 {
+				margin: 0 0 0.5rem;
+				font-size: 2.5rem;
+				letter-spacing: -0.5px;
+			}
+
+			header p {
+				margin: 0;
+				font-size: 1.1rem;
+				opacity: 0.95;
+			}
+
+			.projects-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 1.5rem;
+			}
+
+			.project-card {
+				background: white;
+				border-radius: 16px;
+				padding: 1.75rem;
+				box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+				transition: transform 0.3s ease, box-shadow 0.3s ease;
+				text-decoration: none;
+				color: inherit;
+			}
+
+			.project-card:hover {
+				transform: translateY(-8px);
+				box-shadow: 0 30px 50px rgba(0, 0, 0, 0.25);
+			}
+
+			.project-icon {
+				font-size: 2.5rem;
+				margin-bottom: 0.75rem;
+			}
+
+			.project-card h2 {
+				margin: 0 0 0.5rem;
+				font-size: 1.4rem;
+				color: #1f2937;
+			}
+
+			.project-card p {
+				margin: 0;
+				color: #6b7280;
+				line-height: 1.6;
+				font-size: 0.95rem;
+			}
+
+			.project-link {
+				display: inline-block;
+				margin-top: 1rem;
+				color: #667eea;
+				font-weight: 600;
+				text-decoration: none;
+				transition: color 0.2s ease;
+			}
+
+			.project-link:hover {
+				color: #764ba2;
+				text-decoration: underline;
+			}
+
+			footer {
+				text-align: center;
+				margin-top: 3rem;
+				color: white;
+				opacity: 0.8;
+				font-size: 0.9rem;
+			}
+
+			@media (max-width: 640px) {
+				header h1 {
+					font-size: 1.8rem;
+				}
+
+				.project-card {
+					padding: 1.25rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>JS-Practice Projects</h1>
+				<p>A collection of vanilla JavaScript examples and interactive components</p>
+			</header>
+
+			<div class="projects-grid">
+				<a href="Res-nav.html" class="project-card">
+					<div class="project-icon">📱</div>
+					<h2>Responsive Navigation</h2>
+					<p>
+						A responsive navbar with a hamburger menu toggle using only HTML
+						and CSS. Demonstrates an accessible checkbox-based mobile menu
+						that adapts gracefully across screen sizes.
+					</p>
+					<span class="project-link">Visit →</span>
+				</a>
+
+				<a href="dynamic-tabs.html" class="project-card">
+					<div class="project-icon">📑</div>
+					<h2>Dynamic Tabs</h2>
+					<p>
+						A tabbed interface built with vanilla JavaScript that swaps content
+						panels on demand. Includes keyboard navigation (arrow keys, Home,
+						End) and full ARIA accessibility support.
+					</p>
+					<span class="project-link">Visit →</span>
+				</a>
+			</div>
+
+			<footer>
+				<p>&copy; 2026 JS-Practice. All examples use vanilla JavaScript with no frameworks.</p>
+			</footer>
+		</div>
+	</body>
+</html>

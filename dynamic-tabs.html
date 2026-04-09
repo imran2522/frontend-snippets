@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Dynamic Tabs</title>
+		<style>
+			:root {
+				--bg: #f3f7fb;
+				--surface: #ffffff;
+				--surface-alt: #edf4ff;
+				--text: #10233d;
+				--muted: #5f6f82;
+				--accent: #0f62fe;
+				--accent-strong: #0043ce;
+				--border: #d7e2f0;
+				--shadow: 0 24px 60px rgba(16, 35, 61, 0.12);
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			body {
+				margin: 0;
+				min-height: 100vh;
+				font-family: "Avenir Next", "Segoe UI", sans-serif;
+				background:
+					radial-gradient(circle at top left, rgba(15, 98, 254, 0.18), transparent 30%),
+					linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+				color: var(--text);
+				display: grid;
+				place-items: center;
+				padding: 2rem 1rem;
+			}
+
+			.tabs-shell {
+				width: min(920px, 100%);
+				background: rgba(255, 255, 255, 0.88);
+				backdrop-filter: blur(14px);
+				border: 1px solid rgba(255, 255, 255, 0.7);
+				border-radius: 28px;
+				box-shadow: var(--shadow);
+				overflow: hidden;
+			}
+
+			header {
+				padding: 2rem 2rem 1rem;
+			}
+
+			header p {
+				margin: 0 0 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.12em;
+				font-size: 0.78rem;
+				font-weight: 700;
+				color: var(--accent-strong);
+			}
+
+			h1 {
+				margin: 0;
+				font-size: clamp(2rem, 5vw, 3.5rem);
+				line-height: 1;
+			}
+
+			.subtitle {
+				margin: 1rem 0 0;
+				max-width: 62ch;
+				color: var(--muted);
+				font-size: 1.02rem;
+				line-height: 1.7;
+			}
+
+			.tabs {
+				padding: 0 2rem 2rem;
+			}
+
+			.tab-list {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.75rem;
+				padding-bottom: 1.5rem;
+			}
+
+			.tab-button {
+				appearance: none;
+				border: 1px solid transparent;
+				background: var(--surface-alt);
+				color: var(--text);
+				border-radius: 999px;
+				padding: 0.85rem 1.2rem;
+				font: inherit;
+				font-weight: 700;
+				cursor: pointer;
+				transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+			}
+
+			.tab-button:hover,
+			.tab-button:focus-visible {
+				outline: none;
+				border-color: rgba(15, 98, 254, 0.2);
+				transform: translateY(-1px);
+			}
+
+			.tab-button[aria-selected="true"] {
+				background: var(--accent);
+				color: #ffffff;
+			}
+
+			.panel-wrap {
+				position: relative;
+			}
+
+			.tab-panel {
+				display: none;
+				grid-template-columns: 1.5fr 1fr;
+				gap: 1.25rem;
+				padding: 1.5rem;
+				border-radius: 24px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+			}
+
+			.tab-panel.is-active {
+				display: grid;
+				animation: fade-up 220ms ease;
+			}
+
+			.panel-copy h2 {
+				margin: 0 0 0.75rem;
+				font-size: clamp(1.5rem, 3vw, 2.2rem);
+			}
+
+			.panel-copy p {
+				margin: 0;
+				color: var(--muted);
+				line-height: 1.7;
+			}
+
+			.panel-card {
+				background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+				border: 1px solid var(--border);
+				border-radius: 20px;
+				padding: 1.25rem;
+				display: grid;
+				gap: 0.9rem;
+				align-content: start;
+			}
+
+			.panel-card strong {
+				font-size: 2rem;
+				line-height: 1;
+			}
+
+			.panel-card span,
+			.panel-card li {
+				color: var(--muted);
+			}
+
+			.panel-card ul {
+				margin: 0;
+				padding-left: 1rem;
+			}
+
+			@keyframes fade-up {
+				from {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			@media (max-width: 760px) {
+				header,
+				.tabs {
+					padding-left: 1rem;
+					padding-right: 1rem;
+				}
+
+				.tab-panel {
+					grid-template-columns: 1fr;
+					padding: 1rem;
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.tab-button,
+				.tab-panel.is-active {
+					transition: none;
+					animation: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="tabs-shell">
+			<header>
+				<p>Vanilla JavaScript</p>
+				<h1>Dynamic Tabbed Interface</h1>
+				<p class="subtitle">
+					Select a tab to swap the content panel. The script updates the
+					selected tab, hides the inactive panels, and supports keyboard
+					navigation.
+				</p>
+			</header>
+
+			<section class="tabs" aria-label="Project information tabs">
+				<div class="tab-list" role="tablist" aria-label="Content tabs">
+					<button
+						class="tab-button"
+						type="button"
+						id="tab-design"
+						role="tab"
+						aria-selected="true"
+						aria-controls="panel-design"
+						data-panel="panel-design"
+					>
+						Design
+					</button>
+					<button
+						class="tab-button"
+						type="button"
+						id="tab-build"
+						role="tab"
+						aria-selected="false"
+						aria-controls="panel-build"
+						data-panel="panel-build"
+						tabindex="-1"
+					>
+						Build
+					</button>
+					<button
+						class="tab-button"
+						type="button"
+						id="tab-launch"
+						role="tab"
+						aria-selected="false"
+						aria-controls="panel-launch"
+						data-panel="panel-launch"
+						tabindex="-1"
+					>
+						Launch
+					</button>
+				</div>
+
+				<div class="panel-wrap">
+					<section
+						class="tab-panel is-active"
+						id="panel-design"
+						role="tabpanel"
+						aria-labelledby="tab-design"
+					>
+						<div class="panel-copy">
+							<h2>Shape the experience first</h2>
+							<p>
+								The design tab can introduce the concept, visual direction, or
+								key benefits. Clicking this tab makes its content panel visible
+								and hides the others in the same container.
+							</p>
+						</div>
+						<aside class="panel-card">
+							<strong>01</strong>
+							<span>Focus the user on one section at a time.</span>
+							<ul>
+								<li>Clear active state</li>
+								<li>Minimal DOM updates</li>
+								<li>Easy to reuse</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section
+						class="tab-panel"
+						id="panel-build"
+						role="tabpanel"
+						aria-labelledby="tab-build"
+						hidden
+					>
+						<div class="panel-copy">
+							<h2>Wire behavior with plain JavaScript</h2>
+							<p>
+								Each button maps to a panel through a data attribute. The script
+								reads that target, toggles the active class, and updates the
+								accessibility state in one pass.
+							</p>
+						</div>
+						<aside class="panel-card">
+							<strong>02</strong>
+							<span>Simple logic, no framework required.</span>
+							<ul>
+								<li>Click to switch panels</li>
+								<li>Arrow keys to move tabs</li>
+								<li>Hidden inactive content</li>
+							</ul>
+						</aside>
+					</section>
+
+					<section
+						class="tab-panel"
+						id="panel-launch"
+						role="tabpanel"
+						aria-labelledby="tab-launch"
+						hidden
+					>
+						<div class="panel-copy">
+							<h2>Ship a cleaner content flow</h2>
+							<p>
+								Tabs work well for FAQs, feature comparisons, setup steps, and
+								product details. You keep related content together without
+								overwhelming the page with every section at once.
+							</p>
+						</div>
+						<aside class="panel-card">
+							<strong>03</strong>
+							<span>Compact layout, flexible content.</span>
+							<ul>
+								<li>Accessible roles</li>
+								<li>Responsive structure</li>
+								<li>Easy visual customization</li>
+							</ul>
+						</aside>
+					</section>
+				</div>
+			</section>
+		</div>
+
+		<script>
+			// Collect all tab buttons and their associated content panels from the DOM.
+			// Querying by ARIA role keeps the JS decoupled from class names or IDs.
+			const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+			const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+			/**
+			 * Activates the given tab and shows its corresponding content panel.
+			 *
+			 * For every tab button:
+			 *   - Sets aria-selected="true" on the active tab, "false" on the rest.
+			 *   - Sets tabIndex=0 on the active tab so it is reachable via Tab key,
+			 *     and tabIndex=-1 on all others (roving tabindex pattern).
+			 *
+			 * For every panel:
+			 *   - Removes the `hidden` attribute and adds the `is-active` class on
+			 *     the panel whose id matches the button's data-panel value.
+			 *   - Hides every other panel by setting `hidden` and removing `is-active`.
+			 */
+			function setActiveTab(nextTab) {
+				// Read the target panel id from the clicked tab's data attribute.
+				const panelId = nextTab.dataset.panel;
+
+				// Update selection state and keyboard-focus order for all tab buttons.
+				tabs.forEach((tab) => {
+					const isSelected = tab === nextTab;
+					tab.setAttribute('aria-selected', String(isSelected));
+					tab.tabIndex = isSelected ? 0 : -1;
+				});
+
+				// Show only the matching panel; hide every other panel.
+				panels.forEach((panel) => {
+					const isActive = panel.id === panelId;
+					panel.hidden = !isActive;
+					panel.classList.toggle('is-active', isActive);
+				});
+			}
+
+			// Attach event listeners to each tab button.
+			tabs.forEach((tab, index) => {
+				// Click handler: activate the clicked tab.
+				tab.addEventListener('click', () => setActiveTab(tab));
+
+				/**
+				 * Keyboard handler implementing the ARIA tabs pattern:
+				 *   ArrowRight  – move focus to the next tab (wraps around).
+				 *   ArrowLeft   – move focus to the previous tab (wraps around).
+				 *   Home        – move focus to the first tab.
+				 *   End         – move focus to the last tab.
+				 * Any other key is ignored so normal browser shortcuts are unaffected.
+				 */
+				tab.addEventListener('keydown', (event) => {
+					if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+						return;
+					}
+
+					// Prevent the page from scrolling when arrow keys are pressed.
+					event.preventDefault();
+
+					let nextIndex = index;
+
+					if (event.key === 'ArrowRight') {
+						// Wrap from the last tab back to the first.
+						nextIndex = (index + 1) % tabs.length;
+					} else if (event.key === 'ArrowLeft') {
+						// Wrap from the first tab back to the last.
+						nextIndex = (index - 1 + tabs.length) % tabs.length;
+					} else if (event.key === 'Home') {
+						nextIndex = 0;
+					} else if (event.key === 'End') {
+						nextIndex = tabs.length - 1;
+					}
+
+					// Move browser focus to the target tab and activate it.
+					tabs[nextIndex].focus();
+					setActiveTab(tabs[nextIndex]);
+				});
+			});
+		</script>
+	</body>
+</html>
