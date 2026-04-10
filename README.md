@@ -51,6 +51,27 @@ An interactive tabbed interface that displays different content panels based on 
 
 ---
 
+### 3. **Age Calculator** (`age-calculator/index.html`)
+
+An interactive age calculator that computes exact age from date of birth and an optional target date.
+
+**Features:**
+- Exact age breakdown in years, months, and days
+- Optional "calculate age on" date input (defaults to today)
+- Instant validation for invalid date ranges
+- Extra insights: total days lived and days until next birthday
+- Responsive layout with accessible labels and live result updates
+
+**Technologies:**
+- HTML5 form controls and semantic sections
+- CSS custom properties, gradients, and responsive grid
+- Vanilla JavaScript date arithmetic
+- ARIA live regions for dynamic feedback
+
+**View:** [Age Calculator](./age-calculator/index.html)
+
+---
+
 ## Getting Started
 
 ### Option 1: Local Development
@@ -63,6 +84,7 @@ Open any `.html` file directly in your browser:
 - `index.html` — Project index/landing page
 - `Res-nav.html` — Responsive navbar demo
 - `dynamic-tabs.html` — Tabbed interface demo
+- `age-calculator/index.html` — Age calculator demo
 
 ## File Structure
 
@@ -71,6 +93,10 @@ frontend-snippets/
 ├── index.html              # Project landing page with links to all demos
 ├── Res-nav.html           # Responsive navigation bar component
 ├── dynamic-tabs.html      # Dynamic tabbed interface component
+├── age-calculator/         # Age calculator project folder
+│   ├── index.html          # Age calculator page
+│   ├── style.css           # Styling for age calculator
+│   └── script.js           # Date parsing and age calculation logic
 └── README.md              # This file
 ```
 
